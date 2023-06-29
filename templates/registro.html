@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="registro.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Registro</h1>
+    <form action="registro" method="POST">
+      <label for="matricula"><span>Matrícula:</span></label>
+      <input type="text" id="matricula" name="matricula" required>
+
+      <label for="correo"><span>Correo:</span></label>
+      <input type="email" id="correo" name="correo" required>
+
+      <label for="grupo"><span>Grupo:</span></label>
+      <input type="text" id="grupo" name="grupo" required>
+
+      <label for="nombre"><span>Nombre:</span></label>
+      <input type="text" id="nombre" name="nombre" required>
+
+      <label for="apellido-paterno"><span>Apellido Paterno:</span></label>
+      <input type="text" id="apellido-paterno" name="apellido-paterno" required>
+
+      <button type="submit" class="btn-submit">Registrar</button>
+    </form>
+  </div>
+</body>
+</html>

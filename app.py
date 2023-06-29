@@ -1,41 +1,21 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mysqldb import MySQL
-
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = "localhost"
-app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = ""
-app.config['MYSQL_DB'] = "systemshop"  
-
-app.secret_key='mysecretkey'
-mysql = MySQL(app)
-
-
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('menu.html')
 
-@app.route('/formulario-registro', methods=['POST'])
-def guardar():
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
     if request.method == 'POST':
-        VDescripcion = request.form['txtDescripcion']
-        VFecha_inicio = request.form['txtFecha_inicio']
-        VFecha_final = request.form['txtFecha_final']
+        # Aquí puedes agregar el código para procesar el formulario de registro
+        # y guardar los datos en una base de datos, si es necesario.
         
-        cs = mysql.connection.cursor()
-        cs.execute('INSERT INTO systemshop (Descripcion, Fecha_inicio, Fecha_final) VALUES (%s, %s, %s)', (VDescripcion, VFecha_inicio, VFecha_final))
-        mysql.connection.commit()
-        cs.close()
-        
-        flash('Album Agregado Correctamente')
-    return redirect(url_for('index'))
-
-@app.route('/eliminar')
-def eliminar():
-    return "Se eliminó el álbum de la base de datos."
-
+        # Después de procesar el formulario, redirige al usuario a la página de menú
+        return redirect(url_for('index'))
+    else:
+        return render_template('registro.html')
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(debug=True)
