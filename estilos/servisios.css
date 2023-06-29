@@ -1,0 +1,50 @@
+#registro-servicios {
+    text-align: center;
+    padding: 20px;
+    background-color: #f2f2f2;
+  }
+  
+  #lista-servicios {
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  #formulario-registro label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  #formulario-registro input[type="text"],
+  #formulario-registro textarea,
+  #formulario-registro input[type="date"] {
+    width: 300px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  
+  #formulario-registro button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  #servicios-registrados {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #servicios-registrados li {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+  
