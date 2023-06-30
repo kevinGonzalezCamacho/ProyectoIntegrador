@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interfaz Mercado Libre</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='producto_servicio.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Servicios</h1>
+    <div class="card-container">
+      <div class="card">
+        <img src="{{ url_for('static', filename='service1.jpg') }}" alt="Servicio 1">
+        <h2>Servicio 1</h2>
+        <p>Precio: $100</p>
+        <p>Fecha de Inicio: 01/07/2023</p>
+        <p>Fecha de Finalización: 30/07/2023</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='service2.jpg') }}" alt="Servicio 2">
+        <h2>Servicio 2</h2>
+        <p>Precio: $150</p>
+        <p>Fecha de Inicio: 05/07/2023</p>
+        <p>Fecha de Finalización: 31/07/2023</p>
+      </div>
+    </div>
+
+    <h1>Productos</h1>
+    <div class="card-container">
+      <div class="card">
+        <img src="{{ url_for('static', filename='product1.jpg') }}" alt="Producto 1">
+        <h2>Producto 1</h2>
+        <p>Precio: $50</p>
+        <p>Descripción: Este es un producto de alta calidad.</p>
+      </div>
+      <div class="card">
+        <img src="{{ url_for('static', filename='product2.jpg') }}" alt="Producto 2">
+        <h2>Producto 2</h2>
+        <p>Precio: $75</p>
+        <p>Descripción: Un producto versátil y duradero.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

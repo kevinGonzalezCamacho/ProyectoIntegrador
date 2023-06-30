@@ -1,41 +1,44 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_mysqldb import MySQL
-
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = "localhost"
-app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = ""
-app.config['MYSQL_DB'] = "systemshop"  
-
-app.secret_key='mysecretkey'
-mysql = MySQL(app)
-
+app.secret_key = 'mysecretkey'
 
 @app.route('/')
 def index():
+    return redirect(url_for('menu'))
+
+@app.route('/menu', methods=['GET', 'POST'])
+def menu():
+    if request.method == 'POST':
+        # Realiza aquí la validación de inicio de sesión
+        # Si el inicio de sesión es exitoso, redirige a producto_servicio.html
+        return redirect(url_for('producto_servicio'))
     return render_template('menu.html')
+
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
 
 @app.route('/formulario-registro', methods=['POST'])
 def guardar():
     if request.method == 'POST':
-        VDescripcion = request.form['txtDescripcion']
-        VFecha_inicio = request.form['txtFecha_inicio']
-        VFecha_final = request.form['txtFecha_final']
-        
-        cs = mysql.connection.cursor()
-        cs.execute('INSERT INTO systemshop (Descripcion, Fecha_inicio, Fecha_final) VALUES (%s, %s, %s)', (VDescripcion, VFecha_inicio, VFecha_final))
-        mysql.connection.commit()
-        cs.close()
-        
-        flash('Album Agregado Correctamente')
-    return redirect(url_for('index'))
+        matricula = request.form['matricula']
+        correo = request.form['correo']
+        grupo = request.form['grupo']
+        nombre = request.form['nombre']
+        apellido_paterno = request.form['apellido-paterno']
+        contrasena = request.form['contrasena']
 
-@app.route('/eliminar')
-def eliminar():
-    return "Se eliminó el álbum de la base de datos."
+        # Aquí puedes guardar los datos en la base de datos o hacer lo que desees
 
+        flash('Registro exitoso. ¡Ahora puedes iniciar sesión!')
+
+    return redirect(url_for('menu'))
+
+@app.route('/producto-servicio')
+def producto_servicio():
+    return render_template('producto_servicio.html')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

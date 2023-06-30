@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="registro.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='registro.css') }}">
 </head>
 <body>
   <div class="container">
     <h1>Registro</h1>
-    <form action="registro" method="POST">
+    <form action="{{ url_for('menu') }}" method="GET">
       <label for="matricula"><span>Matrícula:</span></label>
       <input type="text" id="matricula" name="matricula" required>
 
@@ -21,6 +21,9 @@
 
       <label for="apellido-paterno"><span>Apellido Paterno:</span></label>
       <input type="text" id="apellido-paterno" name="apellido-paterno" required>
+
+      <label for="contrasena"><span>Contraseña:</span></label>
+      <input type="password" id="contrasena" name="contrasena" required>
 
       <button type="submit" class="btn-submit">Registrar</button>
     </form>

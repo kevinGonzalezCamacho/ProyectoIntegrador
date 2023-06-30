@@ -2,12 +2,12 @@
 <html>
 <head>
   <title>Menú de Inicio de Sesión</title>
-  <link rel="stylesheet" type="text/css" href="menu.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='menu.css') }}">
 </head>
 <body>
   <div class="container">
     <h1>Iniciar Sesión</h1>
-    <form action="registro" method="GET">
+    <form action="{{ url_for('menu') }}" method="GET">
       <div class="form-group">
         <label for="matricula">Matrícula:</label>
         <input type="text" id="matricula" name="matricula" placeholder="Ingresa tu matrícula">
@@ -24,7 +24,7 @@
         <input type="submit" value="Iniciar Sesión" class="btn-submit">
       </div>
     </form>
-    <p class="register-link">¿No tienes una cuenta? <a href="registro.html">Regístrate</a></p>
+    <p class="register-link">¿No tienes una cuenta? <a href="{{ url_for('registro') }}">Regístrate</a></p>
   </div>
 </body>
 </html>
