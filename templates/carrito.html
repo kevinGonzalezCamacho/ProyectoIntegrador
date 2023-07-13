@@ -33,5 +33,16 @@
             </tr>
         </tfoot>
     </table>
+
+    <button onclick="comprar()">Comprar</button>
+
+    <script>
+        function comprar() {
+            // Aquí puedes agregar la lógica de compra
+            alert("¡Gracias por tu compra!");
+            // Redirigir a la página de producto_servicio.html después de la compra
+            window.location.href = "{{ url_for('producto_servicio') }}";
+        }
+    </script>
 </body>
 </html>

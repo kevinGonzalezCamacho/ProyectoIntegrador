@@ -83,6 +83,28 @@ def producto_servicio():
 
     return render_template('producto_servicio.html', servicios=servicios, productos=productos)
 
+@app.route('/eliminar-servicio/<int:servicio_id>', methods=['DELETE'])
+def eliminar_servicio(servicio_id):
+    cursor = mysql.connection.cursor()
+    query = "DELETE FROM Servicios WHERE id_servicio = %s"
+    values = (servicio_id,)
+    cursor.execute(query, values)
+    mysql.connection.commit()
+    cursor.close()
+
+    return '', 204
+
+@app.route('/eliminar-producto/<int:producto_id>', methods=['DELETE'])
+def eliminar_producto(producto_id):
+    cursor = mysql.connection.cursor()
+    query = "DELETE FROM Producto WHERE id_producto = %s"
+    values = (producto_id,)
+    cursor.execute(query, values)
+    mysql.connection.commit()
+    cursor.close()
+
+    return '', 204
+
 @app.route('/buscar-producto', methods=['GET'])
 def buscar_producto():
     if request.method == 'GET':

@@ -38,7 +38,10 @@
           <p>Precio: ${{ servicio[2] }}</p>
           <p>Fecha de Inicio: {{ servicio[3] }}</p>
           <p>Fecha de Finalización: {{ servicio[4] }}</p>
-          <button class="cart-button" onclick="addToCart('{{ servicio[0] }}', '{{ servicio[1] }}', '{{ servicio[2] }}')">Agregar al Carrito</button>
+          <div>
+            <button class="cart-button" onclick="addToCart('{{ servicio[0] }}', '{{ servicio[1] }}', '{{ servicio[2] }}')">Agregar al Carrito</button>
+            <button class="delete-button" onclick="eliminarServicio('{{ servicio[0] }}')">Eliminar servicio</button>
+          </div>
         </div>
       {% endfor %}
     </div>
@@ -52,7 +55,10 @@
           <p>Precio: ${{ producto[2] }}</p>
           <p>Descripción: {{ producto[3] }}</p>
           <p>Stock: {{ producto[4] }}</p>
-          <button class="cart-button" onclick="addToCart('{{ producto[0] }}', '{{ producto[1] }}', '{{ producto[2] }}')">Agregar al Carrito</button>
+          <div>
+            <button class="cart-button" onclick="addToCart('{{ producto[0] }}', '{{ producto[1] }}', '{{ producto[2] }}')">Agregar al Carrito</button>
+            <button class="delete-button" onclick="eliminarProducto('{{ producto[0] }}')">Eliminar producto</button>
+          </div>
         </div>
       {% endfor %}
     </div>
@@ -73,6 +79,27 @@
           // Puedes usar JavaScript o llamar a una función en tu aplicación
           console.log("Agregado al carrito:", id, nombre, precio, cantidad);
         }
+      }
+    }
+
+    function eliminarProducto(id) {
+      var confirmacion = confirm("¿Estás seguro de eliminar el producto con ID: " + id + "?");
+      if (confirmacion) {
+        fetch('/eliminar-producto/' + id, {
+          method: 'DELETE'
+        })
+        .then(function(response) {
+          if (response.ok) {
+            console.log("Producto eliminado:", id);
+            // Después de eliminar el producto, puedes recargar la página o realizar cualquier otra acción necesaria
+            window.location.reload();
+          } else {
+            console.error("Error al eliminar el producto:", id);
+          }
+        })
+        .catch(function(error) {
+          console.error("Error al eliminar el producto:", id, error);
+        });
       }
     }
   </script>
