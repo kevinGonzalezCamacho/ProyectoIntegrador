@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='agregar_producto.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Agregar Producto</h1>
+    <form method="POST" action="{{ url_for('guardar_producto') }}">
+      <label>
+        <span>Nombre:</span>
+        <input type="text" name="name">
+      </label>
+      <label>
+        <span>Precio:</span>
+        <input type="number" name="price">
+      </label>
+      <label>
+        <span>Descripción:</span>
+        <textarea name="description"></textarea>
+      </label>
+      <label>
+        <span>Stock:</span>
+        <input type="number" name="stock">
+      </label>
+      <input type="submit" value="Guardar" class="btn-submit">
+    </form>
+  </div>
+</body>
+</html>

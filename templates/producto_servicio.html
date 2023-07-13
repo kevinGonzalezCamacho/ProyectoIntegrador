@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Interfaz Mercado Libre</title>
+  <title>Interfaz SystemShop</title>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='producto_servicio.css') }}">
 </head>
 <body>
   <div class="container">
+    <div class="header">
+      <h2 class="title">Interfaz SystemShop</h2>
+      <div class="buttons">
+        <div class="button">
+          <a href="{{ url_for('agregar_producto') }}">Agregar_Producto</a>
+        </div>
+        <div class="button">
+          <a href="{{ url_for('agregar_servicio') }}">Agregar_Servicio</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <form method="GET" action="{{ url_for('buscar_producto') }}">
+        <input type="text" id="product-search" name="product_name" placeholder="Ingrese el nombre del producto">
+        <button type="submit">Buscar_Producto</button>
+      </form>
+      <form method="GET" action="{{ url_for('buscar_servicio') }}">
+        <input type="text" id="service-search" name="service_name" placeholder="Ingrese el nombre del servicio">
+        <button type="submit">Buscar_Servicio</button>
+      </form>
+    </div>
+
     <h1>Servicios</h1>
     <div class="card-container">
       {% for servicio in servicios %}
         <div class="card">
-          <img src="{{ url_for('static', filename=servicio[4]) }}" alt="Servicio">
-          <h2>{{ servicio[1] }}</h2>
+          <h2>Servicio ID: {{ servicio[0] }}</h2>
+          <h3>{{ servicio[1] }}</h3>
           <p>Precio: ${{ servicio[2] }}</p>
           <p>Fecha de Inicio: {{ servicio[3] }}</p>
           <p>Fecha de Finalización: {{ servicio[4] }}</p>
+          <button class="cart-button" onclick="addToCart('{{ servicio[0] }}', '{{ servicio[1] }}', '{{ servicio[2] }}')">Agregar al Carrito</button>
         </div>
       {% endfor %}
     </div>
@@ -23,15 +47,34 @@
     <div class="card-container">
       {% for producto in productos %}
         <div class="card">
-          <img src="{{ url_for('static', filename='teclado.png') }}" alt="Imagen Alusiva">
           <h2>Producto ID: {{ producto[0] }}</h2>
           <h3>{{ producto[1] }}</h3>
           <p>Precio: ${{ producto[2] }}</p>
           <p>Descripción: {{ producto[3] }}</p>
           <p>Stock: {{ producto[4] }}</p>
+          <button class="cart-button" onclick="addToCart('{{ producto[0] }}', '{{ producto[1] }}', '{{ producto[2] }}')">Agregar al Carrito</button>
         </div>
       {% endfor %}
     </div>
+    
+    <div class="total-container">
+      <h2>Total: ${{ total }}</h2>
+      <a href="{{ url_for('carrito') }}" class="cart-link">Ver Carrito</a>
+    </div>
   </div>
+
+  <script>
+    function addToCart(id, nombre, precio) {
+      var cantidad = prompt("Ingrese la cantidad que desea agregar:");
+      if (cantidad !== null) {
+        var confirmacion = confirm("¿Está seguro de agregar " + cantidad + " unidades de " + nombre + " al carrito?");
+        if (confirmacion) {
+          // Aquí puedes agregar la lógica para añadir el producto/servicio al carrito
+          // Puedes usar JavaScript o llamar a una función en tu aplicación
+          console.log("Agregado al carrito:", id, nombre, precio, cantidad);
+        }
+      }
+    }
+  </script>
 </body>
 </html>
