@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interfaz con Imágenes y Botones</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='agregar_servicio.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="column">
+      <div class="box">
+        <h2>Servicios</h2>
+        <img src="{{ url_for('static', filename='servicio.jpg') }}" alt="Servicios">
+        <button>Servicios</button>
+      </div>
+    </div>
+    <div class="column">
+      <div class="box">
+        <h2>Productos</h2>
+        <img src="{{ url_for('static', filename='productos.jpg') }}" alt="Productos">
+        <button>Productos</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

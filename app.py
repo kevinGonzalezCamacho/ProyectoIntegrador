@@ -33,7 +33,7 @@ def menu():
         if user:
             stored_password = user[5]
             if contrasena == stored_password:
-                return redirect(url_for('producto_servicio'))
+                return redirect(url_for('inicio'))  # Redireccionar a la interfaz de inicio
             else:
                 flash('Contraseña incorrecta')
         else:
@@ -210,6 +210,10 @@ def carrito():
     total_carrito = 55.00
 
     return render_template('carrito.html', carrito=carrito, total_carrito=total_carrito)
+
+@app.route('/inicio')
+def inicio():
+    return render_template('inicio.html')  # Interfaz de "inicio"
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
