@@ -17,23 +17,26 @@ mysql = MySQL(app)
 def index():
     return redirect(url_for('menu'))
 
+@app.route('/inicio')
+def Inicio():
+    return render_template('inicio.html')
+
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     if request.method == 'POST':
-        matricula = request.form['matricula']
         correo = request.form['correo']
         contrasena = request.form['contrasena']
 
         cursor = mysql.connection.cursor()
-        query = "SELECT * FROM registro WHERE Matricula = %s AND correo = %s"
-        values = (matricula, correo)
+        query = "SELECT * FROM dbo_estudiantes WHERE Correo = %s"
+        values = (correo,)
         cursor.execute(query, values)
         user = cursor.fetchone()
 
         if user:
-            stored_password = user[5]
+            stored_password = user[7]
             if contrasena == stored_password:
-                return redirect(url_for('inicio'))  # Redireccionar a la interfaz de inicio
+                return redirect(url_for('Inicio'))
             else:
                 flash('Contraseña incorrecta')
         else:
