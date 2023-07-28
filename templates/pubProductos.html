@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="../static/pubProductos.css">
+</head>
+<body>
+  <div class="container">
+    {% for publicacion in publicaciones %}
+      <div class="post">
+        <img src="{{ publicacion.Imagen }}" alt="{{ publicacion.NombreProducto }}">
+        <h2>{{publicacion.NombreProducto}}</h2>
+        <p>{{publicacion.Detalles}}</p>
+        <p>Precio: ${{publicacion.Precio}}</p>
+        <p>Marca: {{publicacion.Marca}}</p>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
