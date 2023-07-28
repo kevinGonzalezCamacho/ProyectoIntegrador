@@ -71,6 +71,23 @@ def guardar():
 
     return redirect(url_for('menu'))
 
+@app.route('/pubProductos')
+def mostrar_publicacionesP():
+    # Conecta a la base de datos
+    cursor = mysql.connection.cursor()
+
+    # Consulta para obtener las publicaciones desde la tabla "productos"
+    query = "SELECT * FROM dbo_producto"
+    cursor.execute(query)
+    publicaciones = cursor.fetchall()
+
+    print(publicaciones)
+    # Cierra la conexión a la base de datos
+    cursor.close()
+
+    return render_template('pubProductos.html', publicaciones=publicaciones)
+
+
 @app.route('/producto-servicio')
 def producto_servicio():
     cursor = mysql.connection.cursor()
