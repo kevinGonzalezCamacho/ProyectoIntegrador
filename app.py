@@ -24,23 +24,30 @@ def Inicio():
 @app.route('/menu', methods=['GET', 'POST'])
 def menu():
     if request.method == 'POST':
+        matricula = request.form['matricula']
         correo = request.form['correo']
         contrasena = request.form['contrasena']
 
         cursor = mysql.connection.cursor()
-        query = "SELECT * FROM dbo_estudiantes WHERE Correo = %s"
-        values = (correo,)
+
+        # Verificar si la matrícula está en la base de datos
+        query = "SELECT * FROM registro WHERE matricula = %s"
+        values = (matricula,)
         cursor.execute(query, values)
         user = cursor.fetchone()
 
         if user:
-            stored_password = user[7]
-            if contrasena == stored_password:
-                return redirect(url_for('Inicio'))
+            # Verificar si el correo coincide con la matrícula ingresada
+            if user[1] == correo:
+                stored_password = user[6]  # Accedemos al valor de la columna 'contrasena' por su índice (6)
+                if contrasena == stored_password:
+                    return redirect(url_for('Inicio'))
+                else:
+                    flash('Contraseña incorrecta')
             else:
-                flash('Contraseña incorrecta')
+                flash('Correo incorrecto para la matrícula ingresada')
         else:
-            flash('Datos de inicio de sesión incorrectos')
+            flash('Matrícula no encontrada en la base de datos')
 
         cursor.close()
 
@@ -58,11 +65,12 @@ def guardar():
         grupo = request.form['grupo']
         nombre = request.form['nombre']
         apellido_paterno = request.form['apellido-paterno']
+        apellido_materno = request.form['apellido-materno']  # Nuevo campo para el apellido materno
         contrasena = request.form['contrasena']
 
         cursor = mysql.connection.cursor()
-        query = "INSERT INTO registro (Matricula, correo, grupo, nombre, apellido_paterno, contrasena) VALUES (%s, %s, %s, %s, %s, %s)"
-        values = (matricula, correo, grupo, nombre, apellido_paterno, contrasena)
+        query = "INSERT INTO registro (matricula, correo, grupo, nombre, apellido_paterno, apellido_materno, contrasena) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        values = (matricula, correo, grupo, nombre, apellido_paterno, apellido_materno, contrasena)  # Ajustamos los valores a insertar
         cursor.execute(query, values)
         mysql.connection.commit()
         cursor.close()
