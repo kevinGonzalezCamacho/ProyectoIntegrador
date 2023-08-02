@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!Archivo CSS para Bootstrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../static/misPublicaciones.css">
+</head>
+<body>
+  <div class="container">
+    {% for dbo_producto in publicaciones %}
+      <div class="post">
+        <img src="../static/imgProductos/{{ dbo_producto[5] }}" alt="{{ dbo_producto[1] }}">
+        <div class="card-content">
+          <h2>{{dbo_producto[1]}}</h2>
+          <p>{{dbo_producto[2]}}</p>
+          <p>Precio: ${{dbo_producto[3]}}</p>
+          <p>Marca: {{dbo_producto[4]}}</p>
+          <p><a href="editarPub" type="button" class="btn btn-outline-secondary">Editar publicación</a></p>
+          <p><a href="eliminarPub" type="button" class="btn btn-outline-danger">Eliminar publicación</a></p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
