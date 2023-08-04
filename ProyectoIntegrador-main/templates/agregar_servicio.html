@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='agregar_servicio.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Agregar Servicio</h1>
+    <form method="POST" action="{{ url_for('guardar_servicio') }}">
+      <label>
+        <span>Nombre:</span>
+        <input type="text" name="name">
+      </label>
+      <label>
+        <span>Precio:</span>
+        <input type="number" name="price">
+      </label>
+      <label>
+        <span>Fecha de Inicio:</span>
+        <input type="date" name="start_date">
+      </label>
+      <label>
+        <span>Fecha de Finalización:</span>
+        <input type="date" name="end_date">
+      </label>
+      <input type="submit" value="Guardar" class="btn-submit">
+    </form>
+  </div>
+</body>
+</html>
