@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interfaz SystemShop</title>
+  <!Archivo CSS para Bootstrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='producto_servicio.css') }}">
+</head>
+<body>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+      <a class="navbar-brand" href="inicio">SYSTEMSHOP</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="inicio">Inicio <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="misPublicaciones">Mis Publicaciones<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Crear Publicación
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="agregar-producto">Productos</a>
+              <a class="dropdown-item" href="agregar-servicio">Servicios</a>
+            </div>
+          </li>
+        </ul>
+            <a href="inicio" name="btnCerrar" class="btn btn-outline-warning">Regresar</a>
+          </form>
+      </div>
+    </nav>
+
+    <div class="search-bar">
+      <form method="GET" action="{{ url_for('buscar_producto') }}">
+        <input type="text" id="product-search" name="product_name" placeholder="Ingrese el nombre del producto">
+        <button type="submit">Buscar_Producto</button>
+      </form>
+      <form method="GET" action="{{ url_for('buscar_servicio') }}">
+        <input type="text" id="service-search" name="service_name" placeholder="Ingrese el nombre del servicio">
+        <button type="submit">Buscar_Servicio</button>
+      </form>
+    </div>
+
+    <center><h1>Servicios</h1></center>
+    <div class="card-container">
+      {% for servicio in servicios %}
+        <div class="card">
+          <h2>Servicio ID: {{ servicio[0] }}</h2>
+          <h3>{{ servicio[1] }}</h3>
+          <p>Precio: ${{ servicio[2] }}</p>
+          <p>Fecha de Inicio: {{ servicio[3] }}</p>
+          <p>Fecha de Finalización: {{ servicio[4] }}</p>
+          <div>
+            <button class="cart-button" onclick="addToCart('{{ servicio[0] }}', '{{ servicio[1] }}', '{{ servicio[2] }}')">Agregar al Carrito</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <center><h1>Productos</h1></center>
+    <div class="card-container">
+      {% for producto in productos %}
+        <div class="card">
+          <h2>Producto ID: {{ producto[0] }}</h2>
+          <h3>{{ producto[1] }}</h3>
+          <p>Precio: ${{ producto[2] }}</p>
+          <p>Descripción: {{ producto[3] }}</p>
+          <p>Marca: {{ producto[4] }}</p>
+          <div>
+            <button class="cart-button" onclick="addToCart('{{ producto[0] }}', '{{ producto[1] }}', '{{ producto[2] }}')">Agregar al Carrito</button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  <script>
+    function addToCart(id, nombre, precio) {
+      var cantidad = prompt("Ingrese la cantidad que desea agregar:");
+      if (cantidad !== null) {
+        var confirmacion = confirm("¿Está seguro de agregar " + cantidad + " unidades de " + nombre + " al carrito?");
+        if (confirmacion) {
+          // Aquí puedes agregar la lógica para añadir el producto/servicio al carrito
+          // Puedes usar JavaScript o llamar a una función en tu aplicación
+          console.log("Agregado al carrito:", id, nombre, precio, cantidad);
+        }
+      }
+    }
+
+    function eliminarProducto(id) {
+      var confirmacion = confirm("¿Estás seguro de eliminar el producto con ID: " + id + "?");
+      if (confirmacion) {
+        fetch('/eliminar-producto/' + id, {
+          method: 'DELETE'
+        })
+        .then(function(response) {
+          if (response.ok) {
+            console.log("Producto eliminado:", id);
+            // Después de eliminar el producto, puedes recargar la página o realizar cualquier otra acción necesaria
+            window.location.reload();
+          } else {
+            console.error("Error al eliminar el producto:", id);
+          }
+        })
+        .catch(function(error) {
+          console.error("Error al eliminar el producto:", id, error);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
