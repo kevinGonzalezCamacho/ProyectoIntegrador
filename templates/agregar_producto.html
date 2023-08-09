@@ -6,7 +6,7 @@
 <body>
   <div class="container">
     <h1>Agregar Producto</h1>
-    <form method="POST" action="{{ url_for('guardar_producto') }}">
+    <form method="POST" action="{{ url_for('guardar_producto') }}" enctype="multipart/form-data">
       <label>
         <span>Nombre:</span>
         <input type="text" name="name">
@@ -17,11 +17,19 @@
       </label>
       <label>
         <span>Descripción:</span>
-        <textarea name="description"></textarea>
+        <input type="text" name="description">
       </label>
       <label>
-        <span>Stock:</span>
-        <input type="number" name="stock">
+        <span>Marca:</span>
+        <input type="text" name="brand">
+      </label>
+      <label>
+        <span>Contacto:</span>
+        <input type="text" name="contact">
+      </label>
+      <label>
+        <span>Imagen:</span>
+        <input type="file" name="image">
       </label>
       <input type="submit" value="Guardar" class="btn-submit">
     </form>

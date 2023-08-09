@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='agregar_producto.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Editar Producto</h1>
+    <form method="POST" action="{{ url_for('editar_producto', producto_id=producto[0]) }}" enctype="multipart/form-data">
+      <label>
+        <span>Nombre:</span>
+        <input type="text" name="name" value="{{ producto.nombre }}">
+      </label>
+      <label>
+        <span>Precio:</span>
+        <input type="number" name="price" value="{{ producto.precio }}">
+      </label>
+      <label>
+        <span>Descripción:</span>
+        <input type="text" name="description" value="{{ producto.descripcion }}">
+      </label>
+      <label>
+        <span>Marca:</span>
+        <input type="text" name="brand" value="{{ producto.marca }}">
+      </label>
+      <label>
+        <span>Contacto:</span>
+        <input type="text" name="contact" value="{{ producto.contacto }}">
+      </label>
+      <label>
+        <span>Imagen:</span>
+        <input type="file" name="image">
+      </label>
+      <input type="submit" value="Guardar cambios" class="btn-submit">
+    </form>
+  </div>
+</body>
+</html>

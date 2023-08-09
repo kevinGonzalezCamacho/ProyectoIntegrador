@@ -85,53 +85,56 @@ def mostrar_publicaciones():
     cursor = mysql.connection.cursor()
 
     # Consulta para obtener las publicaciones desde la tabla "productos"
-    query = "SELECT * FROM dbo_producto"
+    query = "SELECT * FROM producto"
     cursor.execute(query)
-    dbo_producto = cursor.fetchall()
+    producto = cursor.fetchall()
 
-    print(dbo_producto)
+    print(producto)
     # Cierra la conexión a la base de datos
     cursor.close()
 
-    return render_template('misPublicaciones.html', publicaciones=dbo_producto)
+    return render_template('misPublicaciones.html', publicaciones=producto)
 
 
-@app.route('/producto-servicio')
-def producto_servicio():
+@app.route('/productos')
+def productos():
     cursor = mysql.connection.cursor()
-    query_servicios = "SELECT * FROM Servicios"
-    cursor.execute(query_servicios)
-    servicios = cursor.fetchall()
-
     query_productos = "SELECT * FROM Producto"
     cursor.execute(query_productos)
     productos = cursor.fetchall()
 
     cursor.close()
 
-    return render_template('producto_servicio.html', servicios=servicios, productos=productos)
+    return render_template('productos.html', productos=productos)
 
-@app.route('/eliminar-servicio/<int:servicio_id>', methods=['DELETE'])
-def eliminar_servicio(servicio_id):
-    cursor = mysql.connection.cursor()
-    query = "DELETE FROM Servicios WHERE id_servicio = %s"
-    values = (servicio_id,)
-    cursor.execute(query, values)
-    mysql.connection.commit()
-    cursor.close()
+@app.route('/agregar-producto')
+def agregar_producto():
+    return render_template('agregar_producto.html')
 
-    return '', 204
+@app.route('/guardar-producto', methods=['POST'])
+def guardar_producto():
+    if request.method == 'POST':
+        name = request.form['name']
+        price = request.form['price']
+        description = request.form['description']
+        brand = request.form['brand']
+        contact = request.form['contact']
 
-@app.route('/eliminar-producto/<int:producto_id>', methods=['DELETE'])
-def eliminar_producto(producto_id):
-    cursor = mysql.connection.cursor()
-    query = "DELETE FROM Producto WHERE id_producto = %s"
-    values = (producto_id,)
-    cursor.execute(query, values)
-    mysql.connection.commit()
-    cursor.close()
+        # Manejo de la imagen
+        image = request.files['image']
+        if image.filename != '':
+            image.save("static/uploads/" + image.filename)
 
-    return '', 204
+        cursor = mysql.connection.cursor()
+        query = "INSERT INTO producto (nombre, precio, descripcion, marca, contacto, imagen) VALUES (%s, %s, %s, %s, %s, %s)"
+        values = (name, price, description, brand, contact, image.filename if image.filename != '' else None)
+        cursor.execute(query, values)
+        mysql.connection.commit()
+        cursor.close()
+
+        flash('Producto agregado correctamente')
+
+    return redirect(url_for('mostrar_publicaciones'))
 
 @app.route('/buscar-producto', methods=['GET'])
 def buscar_producto():
@@ -145,7 +148,60 @@ def buscar_producto():
         productos = cursor.fetchall()
         cursor.close()
 
-        return render_template('producto_servicio.html', servicios=[], productos=productos)
+        return render_template('productos.html', productos=productos)
+    
+@app.route('/editar-producto/<int:producto_id>', methods=['GET', 'POST'])
+def editar_producto(producto_id):
+    if request.method == 'POST':
+        name = request.form['name']
+        price = request.form['price']
+        description = request.form['description']
+        brand = request.form['brand']
+        contact = request.form['contact']
+        image = request.form['image']
+
+      # ... Obtener valores del formulario y validar el precio ...
+
+        cursor = mysql.connection.cursor()
+        query = "UPDATE producto SET nombre=%s, precio=%s, descripcion=%s, marca=%s, contacto=%s, imagen=%s WHERE id_producto=%s"
+        values = (name, price, description, brand, contact, image.filename if image.filename != '' else None, producto_id)
+        cursor.execute(query, values)
+        mysql.connection.commit()
+        cursor.close()
+
+        flash('Producto editado correctamente')
+        return redirect(url_for('mostrar_publicaciones'))  # Redirige a misPublicaciones
+
+    cursor = mysql.connection.cursor()
+    query = "SELECT * FROM producto WHERE id_producto = %s"
+    values = (producto_id,)
+    cursor.execute(query, values)
+    producto = cursor.fetchone()
+    cursor.close()
+
+    return render_template('editar_producto.html', producto=producto)
+
+@app.route('/eliminar-producto/<int:producto_id>', methods=['DELETE'])
+def eliminar_producto(producto_id):
+    cursor = mysql.connection.cursor()
+    query = "DELETE FROM Producto WHERE id_producto = %s"
+    values = (producto_id,)
+    cursor.execute(query, values)
+    mysql.connection.commit()
+    cursor.close()
+
+    return '', 204
+
+@app.route('/servicios')
+def servicios():
+    cursor = mysql.connection.cursor()
+    query_productos = "SELECT * FROM Servicios"
+    cursor.execute(query_productos)
+    servicios = cursor.fetchall()
+
+    cursor.close()
+
+    return render_template('servicios.html', servicios=servicios)
 
 @app.route('/buscar-servicio', methods=['GET'])
 def buscar_servicio():
@@ -185,59 +241,6 @@ def guardar_servicio():
         flash('Servicio agregado correctamente')
 
     return redirect(url_for('producto_servicio'))
-
-@app.route('/agregar-producto')
-def agregar_producto():
-    return render_template('agregar_producto.html')
-
-@app.route('/guardar-producto', methods=['POST'])
-def guardar_producto():
-    if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        description = request.form['description']
-        stock = request.form['stock']
-
-        cursor = mysql.connection.cursor()
-        query = "INSERT INTO Producto (nombre, precio, descripcion, stock) VALUES (%s, %s, %s, %s)"
-        values = (name, price, description, stock)
-        cursor.execute(query, values)
-        mysql.connection.commit()
-        cursor.close()
-
-        flash('Producto agregado correctamente')
-
-    return redirect(url_for('producto_servicio'))
-
-@app.route('/carrito')
-def carrito():
-    # Aquí debes agregar la lógica para obtener los datos del carrito y calcular el total
-    carrito = [
-        {
-            'producto_id': 1,
-            'nombre': 'Producto 1',
-            'precio': 10.00,
-            'cantidad': 2,
-            'total': 20.00
-        },
-        {
-            'producto_id': 2,
-            'nombre': 'Producto 2',
-            'precio': 15.00,
-            'cantidad': 1,
-            'total': 15.00
-        },
-        {
-            'producto_id': 3,
-            'nombre': 'Producto 3',
-            'precio': 5.00,
-            'cantidad': 4,
-            'total': 20.00
-        }
-    ]
-    total_carrito = 55.00
-
-    return render_template('carrito.html', carrito=carrito, total_carrito=total_carrito)
 
 @app.route('/inicio')
 def inicio():

@@ -2,21 +2,41 @@
 <html>
 <head>
   <title>Interfaz SystemShop</title>
+  <!Archivo CSS para Bootstrap-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='producto_servicio.css') }}">
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h2 class="title">Interfaz SystemShop</h2>
-      <div class="buttons">
-        <div class="button">
-          <a href="{{ url_for('agregar_producto') }}">Agregar_Producto</a>
-        </div>
-        <div class="button">
-          <a href="{{ url_for('agregar_servicio') }}">Agregar_Servicio</a>
-        </div>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+      <a class="navbar-brand" href="inicio">SYSTEMSHOP</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="inicio">Inicio <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="misPublicaciones">Mis Publicaciones<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Crear Publicación
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="agregar-producto">Productos</a>
+              <a class="dropdown-item" href="agregar-servicio">Servicios</a>
+            </div>
+          </li>
+        </ul>
+            <a href="inicio" name="btnCerrar" class="btn btn-outline-warning">Regresar</a>
+          </form>
       </div>
-    </div>
+    </nav>
 
     <div class="search-bar">
       <form method="GET" action="{{ url_for('buscar_producto') }}">
@@ -29,7 +49,7 @@
       </form>
     </div>
 
-    <h1>Servicios</h1>
+    <center><h1>Servicios</h1></center>
     <div class="card-container">
       {% for servicio in servicios %}
         <div class="card">
@@ -40,13 +60,12 @@
           <p>Fecha de Finalización: {{ servicio[4] }}</p>
           <div>
             <button class="cart-button" onclick="addToCart('{{ servicio[0] }}', '{{ servicio[1] }}', '{{ servicio[2] }}')">Agregar al Carrito</button>
-            <button class="delete-button" onclick="eliminarServicio('{{ servicio[0] }}')">Eliminar servicio</button>
           </div>
         </div>
       {% endfor %}
     </div>
 
-    <h1>Productos</h1>
+    <center><h1>Productos</h1></center>
     <div class="card-container">
       {% for producto in productos %}
         <div class="card">
@@ -54,20 +73,13 @@
           <h3>{{ producto[1] }}</h3>
           <p>Precio: ${{ producto[2] }}</p>
           <p>Descripción: {{ producto[3] }}</p>
-          <p>Stock: {{ producto[4] }}</p>
+          <p>Marca: {{ producto[4] }}</p>
           <div>
             <button class="cart-button" onclick="addToCart('{{ producto[0] }}', '{{ producto[1] }}', '{{ producto[2] }}')">Agregar al Carrito</button>
-            <button class="delete-button" onclick="eliminarProducto('{{ producto[0] }}')">Eliminar producto</button>
           </div>
         </div>
       {% endfor %}
     </div>
-    
-    <div class="total-container">
-      <h2>Total: ${{ total }}</h2>
-      <a href="{{ url_for('carrito') }}" class="cart-link">Ver Carrito</a>
-    </div>
-  </div>
 
   <script>
     function addToCart(id, nombre, precio) {

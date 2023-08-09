@@ -7,18 +7,48 @@
   <link rel="stylesheet" href="../static/misPublicaciones.css">
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+    <a class="navbar-brand" href="inicio">SYSTEMSHOP</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="inicio">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="misPublicaciones">Mis Publicaciones<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Crear Publicación
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="agregar-producto">Productos</a>
+            <a class="dropdown-item" href="agregar-servicio">Servicios</a>
+          </div>
+        </li>
+      </ul>
+          <a href="inicio" name="btnCerrar" class="btn btn-outline-warning">Regresar</a>
+        </form>
+    </div>
+  </nav>
+
   <div class="container">
     {% for dbo_producto in publicaciones %}
       <div class="post">
         <img src="../static/imgProductos/{{ dbo_producto[5] }}" alt="{{ dbo_producto[1] }}">
         <div class="card-content">
           <h2>{{dbo_producto[1]}}</h2>
-          <p>{{dbo_producto[2]}}</p>
-          <p>Precio: ${{dbo_producto[3]}}</p>
+          <p>Precio: {{dbo_producto[2]}}</p>
+          <p>Descripción: ${{dbo_producto[3]}}</p>
           <p>Marca: {{dbo_producto[4]}}</p>
-          <p><a href="editarPub" type="button" class="btn btn-outline-secondary">Editar publicación</a></p>
-          <p><a href="eliminarPub" type="button" class="btn btn-outline-danger">Eliminar publicación</a></p>
-        </div>
+          <p>Contacto: {{dbo_producto[5]}}</p>
+          <p><a href="{{ url_for('editar_producto', producto_id=dbo_producto[0]) }}" type="button" class="btn btn-outline-secondary">Editar publicación</a></p>
+          <p><a href="{{ url_for('eliminar_producto', producto_id=dbo_producto[0]) }}" type="button" class="btn btn-outline-danger">Eliminar publicación</a></p>
+
       </div>
     {% endfor %}
   </div>
